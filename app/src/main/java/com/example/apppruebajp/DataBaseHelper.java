@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -18,28 +16,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     DataBaseHelper myDB;
 
     private static final String TAG = "logcat";
-
+    /// Instacia de la base de datos
     private static DataBaseHelper sInstance;
-
+    /// Nombre de la base de datos
     private static final String NOMBRE_BASE_DATOS = "pruebaTelefonos.db";
+    // Versión de la base de datos
     private static final int DATABASE_VERSION = 1;
 
-    //Nombre de la tabla
-    private static final String TABLA_DEPARTAMENTOS = "departamentos";
-    private static final String TABLA_MUNICIPIOS = "municipios";
+    /////Creación de las tablas
 
+    //Nombre de la tabla Departamentos
+    private static final String TABLA_DEPARTAMENTOS = "departamentos";
+    //Nombre de la tabla Municipios
+    private static final String TABLA_MUNICIPIOS = "municipios";
+    //Creación de las columnas de la tabla Departamentos
     private static final String ID_DEPARTAMENTO = "_id";
     private static final String NOMBRE_DEPARTAMENTO = "nombre_departamento";
     private static final String CODIGO_DEPARTAMENTO = "codigo_departamento";
-
+    //Creación de las columnas de la tabla Municipios
     private static final String ID_MUNICIPIO = "_id";
     private static final String NOMBRE_MUNICIPIO = "nombre_municipio";
     private static final String CODIGO_MUNICIPIO = "codigo_municipio";
     private static final String DEPARTAMENTO_ID = "departamento_id";
 
     public static synchronized DataBaseHelper getInstance(Context context) {
-        // Utilice el contexto de la aplicación, que garantizará que
-        // no se filtra accidentalmente el contexto de una actividad.
+
         if (sInstance == null) {
             sInstance = new DataBaseHelper(context.getApplicationContext());
         }
@@ -56,9 +57,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.setForeignKeyConstraintsEnabled(true);
     }
 
+    /**
+     * Creación de las tablas
+     * @param db Base de datos
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        //Query de la creación de la tabla Departamentos
         String CREAR_TABLA_DEPARTAMENTOS = "CREATE TABLE " + TABLA_DEPARTAMENTOS +
                 "(" +
                 ID_DEPARTAMENTO + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -66,7 +71,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 CODIGO_DEPARTAMENTO + " TEXT" +
                 ")";
 
-
+        //Query de la creción de la tabla Municipios
         String CREAR_TABLA_MUNICIPIOS = "CREATE TABLE " + TABLA_MUNICIPIOS +
                 "(" +
                 ID_MUNICIPIO + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -75,15 +80,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 DEPARTAMENTO_ID + " INTEGER, " +
                 " CONSTRAINT fk_departmentos FOREIGN KEY(departamento_id) REFERENCES departamentos(_id)" +
                 ")";
-
+        //Se ejecuta el Query
         db.execSQL(CREAR_TABLA_DEPARTAMENTOS);
         db.execSQL(CREAR_TABLA_MUNICIPIOS);
 
-        //Inserto en la base de datos,  los nombres de países por única vez
         insertarDepartamentos(db);
         insertarMunicipios(db);
     }
 
+    /**
+     * Metodo para actualizar la base de datos cada vez que se ejecuta la aplicación
+     * @param db Base de datos
+     * @param oldVersion Versión anterior
+     * @param newVersion Nueva versión de la Base de datos
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
@@ -98,23 +108,43 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Actualiza la base de datos
+     * @param db Base de datos
+     * @param oldVersion Versión anterior de la Base de datos
+     * @param newVersion Versión nueva de la Base de datos
+     */
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
 
     }
 
+    /**
+     * Metodo para insertar los registros en la tabla de Departamentos
+     * @param db Base de datos
+     */
     private void insertarDepartamentos(SQLiteDatabase db) {
         insertarDatos(db, valores("1", "ANTIOQUIA", "4"));
         insertarDatos(db, valores("2", "CUNDINAMARCA", "1"));
 
     }
 
+    /**
+     * Metodo para insertar los registros en la tabla de Municipios
+     * @param db Base de datos
+     */
     private void insertarMunicipios(SQLiteDatabase db) {
         insertarDatosMun(db, valoresMun("1", "ITAGUI", "4_11", 1));
         insertarDatosMun(db, valoresMun("2", "SOACHA", "1_22", 2));
 
     }
 
+    /**
+     * Metodo para insertar los datos a la tabla de Departamentos
+     * @param db Base de datos
+     * @param valores Datos que se insertan a la tabla
+     * @return
+     */
     private long insertarDatos(SQLiteDatabase db, ContentValues valores) {
         return db.insert(
                 DataBaseHelper.TABLA_DEPARTAMENTOS,
@@ -122,6 +152,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 valores);
     }
 
+    /**
+     * Metodo para insertar los datos a la tabla de Municipios
+     * @param db Base de datos
+     * @param valoresMun Datos que se insertan a la tabla
+     * @return
+     */
     private long insertarDatosMun(SQLiteDatabase db, ContentValues valoresMun) {
         return db.insert(
                 DataBaseHelper.TABLA_MUNICIPIOS,
@@ -129,11 +165,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 valoresMun);
     }
 
-
+    /**
+     * Metodo para ejecutar los datos por parámentro para la tabla de Departamentos
+     * @param id Id del Departamento
+     * @param nombreDepartamentos Nombre del departamento
+     * @param codigoDepartamentos Codigo del departamento
+     * @return
+     */
     private ContentValues valores(String id, String nombreDepartamentos, String codigoDepartamentos) {
-        // Contenedor de valores
+
         ContentValues values = new ContentValues();
-        // Pares clave-valor
+
         values.put(DataBaseHelper.ID_DEPARTAMENTO, id);
         values.put(DataBaseHelper.NOMBRE_DEPARTAMENTO, nombreDepartamentos);
         values.put(DataBaseHelper.CODIGO_DEPARTAMENTO, codigoDepartamentos);
@@ -141,10 +183,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return values;
     }
 
+    /**
+     * Metodo para ejecutar los datos por parámentro para la tabla de Municipios
+     * @param id Id del Municipio
+     * @param nombreMunicipios Nombre del Municipio
+     * @param codigoMunicipios Codigo del Municipio
+     * @param departamentoId Id del Departamento
+     * @return
+     */
     private ContentValues valoresMun(String id, String nombreMunicipios, String codigoMunicipios, Integer departamentoId) {
-        // Contenedor de valores
+
         ContentValues valuesMun = new ContentValues();
-        // Pares clave-valor
+
         valuesMun.put(DataBaseHelper.ID_MUNICIPIO, id);
         valuesMun.put(DataBaseHelper.NOMBRE_MUNICIPIO, nombreMunicipios);
         valuesMun.put(DataBaseHelper.CODIGO_MUNICIPIO, codigoMunicipios);
@@ -152,7 +202,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return valuesMun;
     }
 
-
+    /**
+     * Metodo para obtener en una Lista todos los Departamentos
+     * @return departamentos
+     */
     public List<Departamentos> getAllDepartamentos() {
         List<Departamentos> departamentos = new ArrayList<>();
 
@@ -190,7 +243,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return departamentos;
     }
 
-
+    /**
+     * Metodo para obtener en una Lista todos los Municipios
+     * @return municipios
+     */
     public List<Municipios> getAllMunicipios() {
         List<Municipios> municipios = new ArrayList<>();
 
@@ -234,6 +290,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     ///////// AGREGAR DEPARTAMENTOS
 
+    /**
+     * Metodo que sirve para ingresar datos a la tabla Departamentos
+     * @param NOMBRE Nombre del Departamento
+     * @param CODIGO Codigo del Departamento
+     * @return Verdadero si la inserción se ejecuta correctamente o falso si existe algún problema
+     */
     public boolean insertDataDepartamentos(String NOMBRE, String CODIGO) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -248,6 +310,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     //////// ELIMINAR DEPARTAMENTOS
 
+    /**
+     * Método que sirve para eliminar un registro de la tabla Departamentos
+     * @param id id del Departamentos
+     * @return retorna el query para eliminar un registro de la tabla Departamentos
+     */
     public Integer deleteDepartamentos(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLA_DEPARTAMENTOS, "_id = ?", new String[]{id});
@@ -255,6 +322,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     ////EDITAR DEPARTAMENTOS
 
+    /**
+     * Método que sirve para actualizar los Departamentos
+     * @param id Id del Departamento
+     * @param NOMBRE Nombre del Departamento
+     * @param CODIGO Codigo o indicativo del Departamento
+     * @return Verdadero si actualiza el Departamento o falso si ocurre algún error
+     */
     public boolean updateDepartamentos(String id, String NOMBRE, String CODIGO) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -278,11 +352,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    ////// MUNICIPIOS CRUD //////////
+    /////////////////////// MUNICIPIOS CRUD /////////////////////////////////
 
 
     //// AGREGAR MUNICIPIOS
 
+    /**
+     * Metodo que sirve para agregar Municipios
+     * @param NOMBRE Nombre del Municipio
+     * @param CODIGO Código del Municipio
+     * @param departamento_id Id del departamento para relacionarlo segun el Municipio
+     * @return Verdadero si guarda correctamente o falso si ocurre algún error
+     */
     public boolean insertDataMunicipios(String NOMBRE, String CODIGO, String departamento_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -299,12 +380,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     ///// BORRAR MUNICIPIOS
 
+    /**
+     * Método que sirve para eliminar un registro de la tabla Departamentos
+     * @param id id del registro de la tabla Departamentos
+     * @return retorna el query para eliminar un registro de la tabla Departamentos
+     */
     public Integer deleteMunicipios(String id) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLA_MUNICIPIOS, "_id = ?", new String[]{id});
     }
 
     ////// EDITAR MUNICIPIOS
+
+    /**
+     * Método que sirve para actualizar los Departamentos
+     * @param id id del registro de la tabla Departamentos
+     * @param NOMBRE nombre del registro de la tabla Departamentos
+     * @param CODIGO codigo del registro de la tabla Departamentos
+     * @return Verdadero si actualiza de forma correcta y falso si ocurre algún error
+     */
     public boolean updateMunicipios(String id, String NOMBRE, String CODIGO) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -318,6 +412,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     //////// BUSCAR MUNICIPIOS
 
+    /**
+     * Método para Buscar los departamentos mediante Query SQL
+     * @param CODIGO codigo del Municipio
+     * @return array
+     */
     public String[] BuscarDept(String CODIGO) {
         SQLiteDatabase bd = getReadableDatabase();
         Cursor cursor = bd.rawQuery(" SELECT * FROM " + TABLA_MUNICIPIOS + " WHERE " + CODIGO_MUNICIPIO + " =  " + "'" + CODIGO + "'", null);

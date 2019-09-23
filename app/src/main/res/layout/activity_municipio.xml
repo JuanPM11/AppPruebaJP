@@ -66,13 +66,11 @@
         android:id="@+id/etCodMun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="47dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="23dp"
+        android:layout_marginEnd="20dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/etNombreMun" />
 
     <EditText
@@ -82,7 +80,7 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="23dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etCodMun" />
 

@@ -3,8 +3,6 @@ package com.example.apppruebajp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,9 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import java.lang.reflect.Array;
-
 public class Buscar extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    /// Se inicializa los botones, cajas de texto y base de datos
     Button Back, search;
     DataBaseHelper myDB;
     EditText searchIdMun, searchName, searchCod;
@@ -25,6 +22,7 @@ public class Buscar extends AppCompatActivity implements AdapterView.OnItemSelec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar);
 
+        //// Se obtiene el Id de los botones, cajas de texto y base de datos
         Back = (Button) findViewById(R.id.back);
         myDB = new DataBaseHelper(getApplicationContext());
         search = (Button) findViewById(R.id.btnSeatchMun);
@@ -32,6 +30,7 @@ public class Buscar extends AppCompatActivity implements AdapterView.OnItemSelec
         searchName = (EditText) findViewById(R.id.searchName);
         searchCod = (EditText) findViewById(R.id.searchCod);
 
+        // Acción de regresar con el Botón Back
         Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,6 +40,10 @@ public class Buscar extends AppCompatActivity implements AdapterView.OnItemSelec
         });
         search();
     }
+
+    /**
+     * METODO PARA BUSCAR MUNICIPIO SEGUN EL CODIGO O INDICATIVO
+     */
 
     public void search() {
         search.setOnClickListener(

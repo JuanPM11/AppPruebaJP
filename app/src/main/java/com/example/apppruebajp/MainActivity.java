@@ -15,25 +15,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener   {
-
+    /// Se inicializa los botones
     Button Municipios, Departamentos, Buscar;
-    //Variables para cargar Spinner desde SQLite
+    // Se instancia la base de datos
     DataBaseHelper helper;
+    // Spinner para cargar los nombres de los departamentos y municipios
     Spinner spSpinnerSql, spSpinnerSqlMun ;
+    //Lista para cargar los departamentos y municipios
     List<String> listaDepartamentosSql, listaMunicipiosSql;
     ArrayAdapter<String> comboAdapterSql, comboAdapterSqlMun;
     String idDepartamentos, nombreDepartamentos, codigoDepartamentos;
     String idMunicipios, nombreMunicipios, codigoMunicipios, departamentosID;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //// Se obtiene el Id de los botones
         Municipios = (Button) findViewById(R.id.btnMun);
         Departamentos = (Button) findViewById(R.id.btnDeptos);
         Buscar = (Button) findViewById(R.id.btnSearch);
 
+        // Navegación a la clase Municipios
         Municipios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(Municiopios);
             }
         });
-
+        // Navegación a la clase Departamentos
         Departamentos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(Departamentos);
             }
         });
-
+        // Navegación a la clase Buscar
         Buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,36 +61,34 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(Buscar);
             }
         });
-
-
-        //================Datos cargados desde SQLite=====================//
-        //Instancio la variable helper a DataBaseHelper.getInstance()
-        //Sirve para poder usar los métodos y propiedades SQLite creados anteriormente
+        //Se instancia a la base de datos
         helper = DataBaseHelper.getInstance(this);
 
-
+        //// Se obtiene el Id de los spinner
         spSpinnerSql = (Spinner) findViewById(R.id.spinner);
         spSpinnerSqlMun = (Spinner) findViewById(R.id.spinnerMun);
-        //Implemento el setOnItemSelectedListener: para realizar acciones cuando se seleccionen los ítems
+
+        // Se obtiene el item seleccionado del spinner
         spSpinnerSql.setOnItemSelectedListener(this);
         spSpinnerSqlMun.setOnItemSelectedListener(this);
-        //Convierto la variable List<> en un ArrayList<>()
+
+        // Array de la lista de departamentos y municipios
         listaDepartamentosSql = new ArrayList<>();
         listaMunicipiosSql = new ArrayList<>();
-        //Almaceno el tamaño de la lista getAllPaises()
+
         int sizeListaDepartamentos = helper.getAllDepartamentos().size();
         int sizeListaMunicipios = helper.getAllMunicipios().size();
-        //Agrego los nombres de los países obtenidos y lo almaceno en  `listaPaisesSql`
+
         for (int i = 0; i < sizeListaDepartamentos; i++) {
             listaDepartamentosSql.add(helper.getAllDepartamentos().get(i).getNombreDepartamentos());
         }
         for (int i = 0; i < sizeListaMunicipios; i++) {
             listaMunicipiosSql.add(helper.getAllMunicipios().get(i).getNombreMunicipios());
         }
-        //Implemento el adapter con el contexto, layout, listaPaisesSql
+
         comboAdapterSql = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listaDepartamentosSql);
         comboAdapterSqlMun = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listaMunicipiosSql);
-        //Cargo el spinner con los datos
+
         spSpinnerSql.setAdapter(comboAdapterSql);
         spSpinnerSqlMun.setAdapter(comboAdapterSqlMun);
 
@@ -96,9 +98,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
             case R.id.spinner:
-                //Almaceno el id del país seleccionado
+
                 idDepartamentos = helper.getAllDepartamentos().get(position).getId();
-                //Almaceno el nombre del país seleccionado
+
                 nombreDepartamentos = helper.getAllDepartamentos().get(position).getNombreDepartamentos();
                 codigoDepartamentos = helper.getAllDepartamentos().get(position).getCodigoDepartamentos();
 

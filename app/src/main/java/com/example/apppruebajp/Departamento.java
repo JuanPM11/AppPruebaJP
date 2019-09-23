@@ -7,11 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Departamento extends AppCompatActivity {
-
+    /// Se inicializa los botones, cajas de texto y base de datos
     DataBaseHelper myDB;
     Button Back, save, delete, edit;
     EditText etName, etCod, id;
@@ -22,6 +21,7 @@ public class Departamento extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_departamento);
 
+        //// Se obtiene el Id de los botones, cajas de texto y base de datos
         id = (EditText) findViewById(R.id.Id);
         etName = (EditText) findViewById(R.id.etName);
         etCod = (EditText) findViewById(R.id.etCod);
@@ -36,6 +36,7 @@ public class Departamento extends AppCompatActivity {
         delete = (Button) findViewById(R.id.btnDelete);
         Back = (Button) findViewById(R.id.back);
 
+        // Acción de regresar con el Botón Back
         Back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Municipio extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    /// Se inicializa los botones, cajas de texto, lista, array, spinner y base de datos
     DataBaseHelper myDB;
     Button back, save, delete, edit;
     TextView etNombreMun, etCodMun;
@@ -34,10 +35,11 @@ public class Municipio extends AppCompatActivity implements AdapterView.OnItemSe
         etCodMun = (EditText) findViewById(R.id.etCodMun);
         etIdMun = (EditText) findViewById(R.id.etIdMun);
 
-
+        // Contexto de la base de datos
         myDB = new DataBaseHelper(getApplicationContext());
         myDB = new DataBaseHelper(this);
 
+        //// Se obtiene el Id de los botones, cajas de texto, spinner y base de datos
         save = (Button) findViewById(R.id.btnSave);
         back = (Button) findViewById(R.id.back);
         delete = (Button) findViewById(R.id.btnDelete);
