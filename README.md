@@ -1,4 +1,6 @@
 Gestión de teléfonos Android
+
+
 Para ejecutar la aplicación desde Android Studio se debe seguir con las siguientes insturcciones.
 
 	-Versión de sdk 29
