@@ -324,28 +324,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     /**
      * Método que sirve para actualizar los Departamentos
-     * @param id Id del Departamento
      * @param NOMBRE Nombre del Departamento
      * @param CODIGO Codigo o indicativo del Departamento
      * @return Verdadero si actualiza el Departamento o falso si ocurre algún error
      */
-    public boolean updateDepartamentos(String id, String NOMBRE, String CODIGO) {
+    public boolean updateDepartamentos(String nombreDept, String NOMBRE, String CODIGO) {
+        SQLiteDatabase bd = getReadableDatabase();
+        Cursor cursor = bd.rawQuery(" SELECT _id FROM " + TABLA_DEPARTAMENTOS + " WHERE nombre_departamento = '" + nombreDept + "'", null);
+        cursor.moveToFirst();
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ID_DEPARTAMENTO, id);
+        contentValues.put(ID_DEPARTAMENTO, cursor.getString(0));
         contentValues.put(NOMBRE_DEPARTAMENTO, NOMBRE);
         contentValues.put(CODIGO_DEPARTAMENTO, CODIGO);
-        db.update(TABLA_DEPARTAMENTOS, contentValues, "_id = ?", new String[]{id});
-        Cursor cursor = db.rawQuery("SELECT _id, codigo_municipio FROM " + TABLA_MUNICIPIOS + " WHERE departamento_id = " + id , null);
-        if (cursor.moveToFirst()) {
+        db.update(TABLA_DEPARTAMENTOS, contentValues, "_id = ?", new String[]{cursor.getString(0)});
+        Cursor cursor2 = db.rawQuery("SELECT _id, codigo_municipio FROM " + TABLA_MUNICIPIOS + " WHERE departamento_id = " + cursor.getString(0) , null);
+        if (cursor2.moveToFirst()) {
             do {
-                String cMun = cursor.getString(0);
-                String codigo = cursor.getString(1).split("_")[1];
+                String cMun = cursor2.getString(0);
+                String codigo = cursor2.getString(1).split("_")[1];
                 String nCodigo = CODIGO + "_" + codigo;
                 ContentValues nValues = new ContentValues();
                 nValues.put(CODIGO_MUNICIPIO, nCodigo);
                 db.update(TABLA_MUNICIPIOS, nValues, "_id = ?", new String[]{cMun});
-            } while (cursor.moveToNext());
+            } while (cursor2.moveToNext());
         }
 
         return true;
@@ -394,18 +397,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     /**
      * Método que sirve para actualizar los Departamentos
-     * @param id id del registro de la tabla Departamentos
      * @param NOMBRE nombre del registro de la tabla Departamentos
      * @param CODIGO codigo del registro de la tabla Departamentos
      * @return Verdadero si actualiza de forma correcta y falso si ocurre algún error
      */
-    public boolean updateMunicipios(String id, String NOMBRE, String CODIGO) {
+    public boolean updateMunicipios(String NombreMun, String NOMBRE, String CODIGO) {
+        SQLiteDatabase bd = getReadableDatabase();
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = bd.rawQuery(" SELECT _id FROM " + TABLA_MUNICIPIOS + " WHERE nombre_municipio = '" + NombreMun + "'", null);
+        cursor.moveToFirst();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ID_MUNICIPIO, id);
+        contentValues.put(ID_MUNICIPIO, cursor.getString(0));
         contentValues.put(NOMBRE_MUNICIPIO, NOMBRE);
         contentValues.put(CODIGO_MUNICIPIO, CODIGO);
-        db.update(TABLA_MUNICIPIOS, contentValues, "_id = ?", new String[]{id});
+        db.update(TABLA_MUNICIPIOS, contentValues, "_id = ?", new String[]{cursor.getString(0)});
         return true;
     }
 

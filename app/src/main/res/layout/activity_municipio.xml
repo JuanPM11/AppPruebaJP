@@ -8,17 +8,6 @@
     tools:context=".Municipio">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="47dp"
-        android:text="ID"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,12 +42,13 @@
 
     <EditText
         android:id="@+id/etNombreMun"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="31dp"
         android:layout_marginEnd="22dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titileMunicipios" />
 
@@ -68,21 +58,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etNombreMun" />
-
-    <EditText
-        android:id="@+id/etIdMun"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="23dp"
+        android:maxLength="3"
         android:ems="10"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCodMun" />
+        app:layout_constraintTop_toBottomOf="@+id/etNombreMun" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -91,7 +71,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etIdMun" />
+        app:layout_constraintTop_toBottomOf="@+id/etCodMun" />
 
     <Button
         android:id="@+id/back"

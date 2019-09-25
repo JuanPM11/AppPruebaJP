@@ -25,7 +25,6 @@ public class Municipio extends AppCompatActivity implements AdapterView.OnItemSe
     ArrayAdapter<String> comboAdapterSql;
     List<String> listaDepartamentosSql;
     Spinner spinner;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,29 +46,47 @@ public class Municipio extends AppCompatActivity implements AdapterView.OnItemSe
 
         myDB = DataBaseHelper.getInstance(this);
         spinner = (Spinner) findViewById(R.id.spinner);
+
         spinner.setOnItemSelectedListener(this);
+
         listaDepartamentosSql = new ArrayList<>();
+
 
         int sizeListaDepartamentos = myDB.getAllDepartamentos().size();
         for (int i = 0; i < sizeListaDepartamentos; i++) {
             listaDepartamentosSql.add(myDB.getAllDepartamentos().get(i).getNombreDepartamentos());
         }
+
+
         comboAdapterSql = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, listaDepartamentosSql);
         spinner.setAdapter(comboAdapterSql);
 
 
-        myDB = new DataBaseHelper(this);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent edit = new Intent(Municipio.this, editar_municipio.class);
+                startActivity(edit);
+            }
+        });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent Back = new Intent(Municipio.this, MainActivity.class);
-                startActivity(Back);
+                Intent back = new Intent(Municipio.this, MainActivity.class);
+                startActivity(back);
             }
         });
 
         save();
-        delete();
-        update();
+
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent delete = new Intent(Municipio.this, EliminarMunicipios.class);
+                startActivity(delete);
+            }
+        });
 
     }
 
@@ -94,42 +111,6 @@ public class Municipio extends AppCompatActivity implements AdapterView.OnItemSe
         );
     }
 
-    /**
-     * METODO PARA ELIMINAR  REGISTROS
-     */
-    public void delete() {
-        delete.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Integer deleteRows = myDB.deleteMunicipios(etIdMun.getText().toString());
-                        if (deleteRows > 0)
-                            Toast.makeText(Municipio.this, "Eliminado correctamente", Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(Municipio.this, "Fallo al Eliminar", Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-    }
-
-    /**
-     * METODO PARA EDITAR REGISTRO
-     */
-    public void update() {
-        edit.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        boolean isUpdate = myDB.updateMunicipios(etIdMun.getText().toString(), etNombreMun.getText().toString(), etCodMun.getText().toString());
-                        if (isUpdate)
-                            Toast.makeText(Municipio.this, "Editado correctamente", Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(Municipio.this, "Fallo al editar", Toast.LENGTH_LONG).show();
-
-                    }
-                }
-        );
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

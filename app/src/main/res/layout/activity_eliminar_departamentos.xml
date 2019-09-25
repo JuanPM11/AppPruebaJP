@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/a"
+    tools:context=".EliminarDepartamentos">
+
+    <EditText
+        android:id="@+id/idDepartamento"
+        android:layout_width="137dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="206dp"
+        android:layout_marginBottom="427dp"
+        android:ems="10"
+        android:inputType="phone"
+        android:maxLength="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.019" />
+
+    <TextView
+        android:id="@+id/IdTxt"
+        android:layout_width="246dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="12dp"
+        android:text="Ingrese el ID del DEPARTAMENTO"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/idDepartamento"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="324dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
+        android:text="ELIMINAR DEPARTAMENTO"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnEliminar"
+        android:layout_width="98dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="152dp"
+        android:layout_marginEnd="156dp"
+        android:text="Eliminar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IdTxt" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="38dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
